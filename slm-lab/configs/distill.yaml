@@ -1,7 +1,10 @@
 # Phase-3 knowledge distillation (TRL GKD: on-policy generalized KD).
 # Student generates outputs, teacher supervises them at the distribution level.
-teacher_model: Qwen/Qwen2.5-1.5B-Instruct
-student_model: models/final           # SFT-merged student, or Qwen/Qwen3-0.6B
+# GKD requires teacher & student to SHARE the same tokenizer/vocab -> use a
+# same-family Qwen3 teacher (not Qwen2.5). Download to models/base/ when you
+# reach the distillation phase (same offline flow as the student).
+teacher_model: models/base/Qwen3-1.7B   # same vocab as Qwen3-0.6B student
+student_model: models/final             # SFT-merged student, or models/base/Qwen3-0.6B
 
 data:
   train_file: data/train.jsonl

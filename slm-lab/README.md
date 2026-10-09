@@ -4,7 +4,7 @@
 第一版跑通完整链路：**小模型 → LoRA/SFT → 评测 → 再加 Teacher 蒸馏 → GGUF 量化 → 本地运行**。
 
 ```
-Teacher: Qwen2.5-1.5B   →  生成/审核数据
+Teacher: Qwen3-1.7B     →  生成/审核数据（蒸馏阶段）
 Student: Qwen3-0.6B      →  LoRA/SFT  →  专用 0.6B SLM  →  GGUF 量化  →  llama.cpp
 ```
 
@@ -63,6 +63,8 @@ python -c "import torch; print(torch.cuda.is_available())"   # True = 能用 GPU
   `config.json`、`generation_config.json`、`model.safetensors`、`tokenizer.json`、`tokenizer_config.json`、`vocab.json`、`merges.txt`
 
 **Hugging Face（海外）**：仓库 `Qwen/Qwen3-0.6B`，可用 `huggingface_hub.snapshot_download` 或 `git lfs clone`。
+
+> **Teacher（可选，蒸馏阶段才需要）**：GKD 蒸馏要求师生**同一词表**，用同系列的 `Qwen/Qwen3-1.7B`（别用 Qwen2.5），同样下载到 `models/base/Qwen3-1.7B/`。SFT 阶段不需要它。
 
 > **受限/公司网络**：若代理强制认证会拦截 HF/ModelScope 的程序化下载（典型报错 `cpauth 401`），请用浏览器在上面文件页**手动下载**后放入目录，并在运行时打开离线开关：
 > ```powershell
