@@ -1,0 +1,24 @@
+# Models and large artifacts
+models/base/
+models/lora/
+models/final/
+models/distill/
+third_party/
+*.gguf
+
+# Data (regenerate with scripts/generate_dataset.py)
+data/raw/
+data/*.jsonl
+
+# Evaluation outputs
+evaluation/results.json
+evaluation/error_cases.jsonl
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

@@ -1,0 +1,40 @@
+# Phase-1 SFT + LoRA baseline for the Intent Router SLM.
+# Local offline path (downloaded via browser). Original: Qwen/Qwen3-0.6B
+model_name: models/base/Qwen3-0.6B
+
+data:
+  train_file: data/train.jsonl
+  valid_file: data/valid.jsonl
+
+output_dir: models/lora
+
+# LoRA / PEFT
+lora:
+  r: 16
+  lora_alpha: 16
+  lora_dropout: 0.1
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+# SFTConfig / TrainingArguments -- these are a first-round baseline, not final.
+training:
+  num_train_epochs: 3        # upper bound; early stopping picks the best point
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 1.0e-4
+  logging_steps: 10
+  eval_strategy: steps
+  eval_steps: 100
+  save_strategy: steps
+  save_steps: 100
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  bf16: false                # CPU-only: fp32 (bf16 training not supported on CPU)
+  max_length: 256
+  packing: false
+  report_to: none
+  # Keep the best checkpoint (lowest eval_loss) and stop when it stops improving.
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+  early_stopping_patience: 3
+  save_total_limit: 2

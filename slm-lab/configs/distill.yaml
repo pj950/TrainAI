@@ -1,0 +1,32 @@
+# Phase-3 knowledge distillation (TRL GKD: on-policy generalized KD).
+# Student generates outputs, teacher supervises them at the distribution level.
+teacher_model: Qwen/Qwen2.5-1.5B-Instruct
+student_model: models/final           # SFT-merged student, or Qwen/Qwen3-0.6B
+
+data:
+  train_file: data/train.jsonl
+  valid_file: data/valid.jsonl
+
+output_dir: models/distill
+
+lora:
+  r: 32
+  lora_alpha: 16
+  lora_dropout: 0.05
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+training:
+  num_train_epochs: 2
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 5.0e-5
+  logging_steps: 10
+  eval_strategy: steps
+  eval_steps: 100
+  bf16: true
+  max_length: 1024
+  # GKD-specific
+  lmbda: 0.5        # fraction of on-policy (student-generated) steps
+  beta: 0.5         # 0=forward KL, 1=reverse KL, 0.5=JSD
+  temperature: 1.0
+  report_to: none

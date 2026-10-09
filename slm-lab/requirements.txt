@@ -1,0 +1,14 @@
+# Core training / evaluation stack.
+torch>=2.3
+transformers>=4.44
+trl>=0.12
+peft>=0.12
+datasets>=2.20
+accelerate>=0.33
+pyyaml>=6.0
+
+# Optional: QLoRA 4-bit training (GPU only).
+# bitsandbytes>=0.43
+
+# Optional: local GGUF inference.
+# llama-cpp-python>=0.2.90

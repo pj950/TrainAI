@@ -1,0 +1,38 @@
+# Phase-1 SFT + LoRA on GPU (CUDA). Faster than the CPU config in sft.yaml.
+# Local offline path (downloaded via browser). Original: Qwen/Qwen3-0.6B
+model_name: models/base/Qwen3-0.6B
+
+data:
+  train_file: data/train.jsonl
+  valid_file: data/valid.jsonl
+
+output_dir: models/lora
+
+# LoRA / PEFT
+lora:
+  r: 16
+  lora_alpha: 16
+  lora_dropout: 0.1
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+
+training:
+  num_train_epochs: 3        # upper bound; early stopping picks the best point
+  per_device_train_batch_size: 16   # raise to 32 if VRAM allows
+  gradient_accumulation_steps: 1
+  learning_rate: 1.0e-4
+  logging_steps: 10
+  eval_strategy: steps
+  eval_steps: 50
+  save_strategy: steps
+  save_steps: 50
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  bf16: true                 # GPU: use bf16 (fp16 also fine on older cards)
+  max_length: 512
+  packing: false
+  report_to: none
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+  early_stopping_patience: 3
+  save_total_limit: 2
