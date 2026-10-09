@@ -6,12 +6,10 @@ models/distill/
 third_party/
 *.gguf
 
-# Data (regenerate with scripts/generate_dataset.py)
+# Data: keep train/valid/test splits (small, reproducible); ignore raw dumps
 data/raw/
-data/*.jsonl
 
-# Evaluation outputs
-evaluation/results.json
+# Evaluation: keep results.json (metrics record); ignore noisy per-run error cases
 evaluation/error_cases.jsonl
 
 # Logs

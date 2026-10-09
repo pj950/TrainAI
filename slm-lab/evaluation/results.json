@@ -1,0 +1,17 @@
+{
+  "baseline": {
+    "tag": "baseline",
+    "model": "models/base/Qwen3-0.6B",
+    "adapter": null,
+    "n": 500,
+    "json_valid_rate": 1.0,
+    "keys_ok_rate": 1.0,
+    "intent_accuracy": 0.0,
+    "domain_accuracy": 0.0,
+    "need_rag_accuracy": 0.036,
+    "need_graph_accuracy": 0.036,
+    "missing_param_accuracy": 0.994,
+    "latency_ms_mean": 11675.1,
+    "latency_ms_p95": 16944.2
+  }
+}
